@@ -60,21 +60,21 @@ st.sidebar.header('Filtrar os Dados')
 veiculo = st.sidebar.text_input('Veículo/Equip.')
 data_inicial = st.sidebar.date_input('Data inicial', pd.to_datetime('2024-01-01'))
 data_final = st.sidebar.date_input('Data final', pd.Timestamp.now())
-percentagem = st.sidebar.selectbox('Percentagem', [10, 20, 30, 50])
+porcentagem = st.sidebar.selectbox('Porcentagem', [10, 20, 30, 50])
 
 filtro = abastecimento_df[(abastecimento_df['Veículo/Equip.'].str.contains(veiculo, case=False, na=False)) &
                           (pd.to_datetime(abastecimento_df['Data Req.'], format='%d/%m/%Y') >= pd.to_datetime(data_inicial)) &
                           (pd.to_datetime(abastecimento_df['Data Req.'], format='%d/%m/%Y') <= pd.to_datetime(data_final))]
 
 media_km_litro = filtro['Km por Litro'].mean()
-limite = media_km_litro * (1 - percentagem / 100)
+limite = media_km_litro * (1 - porcentagem / 100)
 filtro_desempenho = filtro[filtro['Km por Litro'] < limite]
 
-st.write(f"Abastecimentos com Km por Litro abaixo de {percentagem}% da média ({media_km_litro:.2f} Km por Litro):")
+st.write(f"Abastecimentos com Km por Litro abaixo de {porcentagem}% da média ({media_km_litro:.2f} Km por Litro):")
 st.write(filtro_desempenho)
 
 fig = px.bar(filtro_desempenho, x='Data Req.', y='Km por Litro', color='Km por Litro', hover_data=['Requisitante', 'Requisição', 'Veículo/Equip.'])
-fig.update_layout(title=f"Desempenho dos Abastecimentos de {veiculo} abaixo de {percentagem}% da média", xaxis_title="Data Req.", yaxis_title="Km por Litro", xaxis_tickangle=-45)
+fig.update_layout(title=f"Desempenho dos Abastecimentos de {veiculo} abaixo de {porcentagem}% da média", xaxis_title="Data Req.", yaxis_title="Km por Litro", xaxis_tickangle=-45)
 st.plotly_chart(fig)
 
 if st.button('Exportar Dados Filtrados para Excel', key='export_button'):
