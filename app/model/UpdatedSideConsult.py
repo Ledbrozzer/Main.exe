@@ -1,4 +1,4 @@
-# Side_Consult.py -> Refined code
+# Side_Consult.py -> Refined Code
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -76,9 +76,9 @@ media_km_litro = abastecimento_df[abastecimento_df['Veículo/Equip.'].str.contai
 limite = media_km_litro * (1 - porcentagem / 100)
 filtro_desempenho = filtro[filtro['Km por Litro'] < limite]
 
-# Mini tabela com os dois abastecimentos com Km por Litro mais baixo para cada Veículo/Equip.
-mini_tabela = filtro.loc[filtro.groupby('Veículo/Equip.')['Km por Litro'].nsmallest(2).index.get_level_values(1)]
-st.write("Mini Tabela: Dois Abastecimentos com Km por Litro mais baixo para cada Veículo/Equip. (de acordo com o intervalo de datas)")
+# Mini tabela com os três abastecimentos com Km por Litro mais baixo para cada Veículo/Equip.
+mini_tabela = abastecimento_df.loc[abastecimento_df.groupby('Veículo/Equip.')['Km por Litro'].nsmallest(3).index.get_level_values(1)]
+st.write("Mini Tabela: Três Abastecimentos com Km por Litro mais baixo para cada Veículo/Equip.")
 st.write(mini_tabela)
 
 st.write(f"Abastecimentos com Km por Litro abaixo de {porcentagem}% da média ({media_km_litro:.2f} Km por Litro):")
