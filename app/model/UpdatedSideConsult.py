@@ -1,4 +1,3 @@
-# Copy Code to "Side_Consult.py", for the updated analysis
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -33,6 +32,8 @@ veiculo_df, abastecimento_df = read_files()
 if veiculo_df is None or abastecimento_df is None:
     st.stop()
 
+# Garantir que a coluna 'Veículo/Equip.' seja tratada como string
+abastecimento_df['Veículo/Equip.'] = abastecimento_df['Veículo/Equip.'].astype(str)
 abastecimento_df['Data Req.'] = pd.to_datetime(abastecimento_df['Data Req.'], errors='coerce', dayfirst=True)
 columns_exclud = ["Combustível", "Vlr. Unitário", "Hora Abast.", "Abast. Externo"]
 current_columns = [col for col in columns_exclud if col in abastecimento_df.columns]
