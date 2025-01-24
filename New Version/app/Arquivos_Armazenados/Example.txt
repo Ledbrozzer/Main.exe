@@ -1,0 +1,2 @@
+Delete "Example.txt".
+Just leave the Folder "Arquivos_Armazenados"
